@@ -1,0 +1,768 @@
+{
+ "source": "BoschDreams-7V technical report, November 2026",
+ "main": {
+  "GT reference": {
+   "objq": 0.7624,
+   "subjq": 0.5402,
+   "vcons": 0.8851,
+   "fvd": null,
+   "acons": 0.7794,
+   "apres": 0.6669,
+   "ade": 0.0,
+   "dtw": 0.0,
+   "ftd": 0.0,
+   "match": 500.62,
+   "conf": 272.84
+  },
+  "Causal Forcing": {
+   "objq": 0.68,
+   "subjq": 0.4295,
+   "vcons": 0.7367,
+   "fvd": 650.71,
+   "acons": 0.5854,
+   "apres": 0.4385,
+   "ade": 20.7,
+   "dtw": 1870.5,
+   "ftd": 89.09,
+   "match": null,
+   "conf": null
+  },
+  "LingBot": {
+   "objq": 0.649,
+   "subjq": 0.4262,
+   "vcons": 0.7373,
+   "fvd": 389.25,
+   "acons": 0.6429,
+   "apres": 0.5371,
+   "ade": 16.96,
+   "dtw": 1218.5,
+   "ftd": 134.81,
+   "match": null,
+   "conf": null
+  },
+  "Wan2.2": {
+   "objq": 0.918,
+   "subjq": 0.4801,
+   "vcons": 0.8124,
+   "fvd": 713.69,
+   "acons": 0.6131,
+   "apres": 0.6034,
+   "ade": 17.28,
+   "dtw": 1690.9,
+   "ftd": null,
+   "match": null,
+   "conf": null
+  },
+  "FastVideo Causal Wan2.2": {
+   "objq": 0.7833,
+   "subjq": 0.5925,
+   "vcons": 0.8953,
+   "fvd": 1177.9,
+   "acons": 0.7579,
+   "apres": 0.4992,
+   "ade": 23.09,
+   "dtw": 1619.9,
+   "ftd": 88.89,
+   "match": null,
+   "conf": null
+  },
+  "HY-WorldPlay": {
+   "objq": 0.885,
+   "subjq": 0.491,
+   "vcons": 0.8058,
+   "fvd": 769.15,
+   "acons": 0.757,
+   "apres": 0.5307,
+   "ade": 32.03,
+   "dtw": 2762.4,
+   "ftd": 86.63,
+   "match": null,
+   "conf": null
+  },
+  "Self-Forcing": {
+   "objq": 0.815,
+   "subjq": 0.5657,
+   "vcons": 0.7974,
+   "fvd": 1056.56,
+   "acons": 0.686,
+   "apres": 0.5617,
+   "ade": 24.9,
+   "dtw": 1967.6,
+   "ftd": 153.05,
+   "match": null,
+   "conf": null
+  },
+  "Cosmos-Transfer 2.5 (7V)": {
+   "objq": 0.7667,
+   "subjq": 0.5041,
+   "vcons": 0.8613,
+   "fvd": 106.99,
+   "acons": 0.712,
+   "apres": 0.6491,
+   "ade": 17.5,
+   "dtw": 1077.4,
+   "ftd": 148.41,
+   "match": 415.67,
+   "conf": 209.69
+  },
+  "Cosmos 2.5 1V": {
+   "objq": 0.87,
+   "subjq": 0.4294,
+   "vcons": 0.8256,
+   "fvd": 260.97,
+   "acons": 0.7295,
+   "apres": 0.6296,
+   "ade": 20.13,
+   "dtw": 1427.1,
+   "ftd": 106.81,
+   "match": null,
+   "conf": null
+  },
+  "OmniDreams-1V": {
+   "objq": 0.7883,
+   "subjq": 0.4377,
+   "vcons": 0.7931,
+   "fvd": 199.23,
+   "acons": 0.7132,
+   "apres": 0.6296,
+   "ade": 13.49,
+   "dtw": 791.6,
+   "ftd": 80.42,
+   "match": null,
+   "conf": null
+  },
+  "BoschDreams 480p 1-step": {
+   "objq": 0.851,
+   "subjq": 0.4937,
+   "vcons": 0.8494,
+   "fvd": 80.19,
+   "acons": 0.682,
+   "apres": 0.6505,
+   "ade": 6.1,
+   "dtw": 392.4,
+   "ftd": 60.17,
+   "match": 307.78,
+   "conf": 126.1
+  },
+  "BoschDreams 720p 4-step": {
+   "objq": 0.9001,
+   "subjq": 0.5645,
+   "vcons": 0.8894,
+   "fvd": 84.35,
+   "acons": 0.7359,
+   "apres": 0.6887,
+   "ade": 4.9,
+   "dtw": 284.8,
+   "ftd": 55.48,
+   "match": 380.5,
+   "conf": 183.25
+  }
+ },
+ "ablation": {
+  "I \u00b7 Teacher": {
+   "fps": 0.14,
+   "subjq": 0.5806,
+   "vcons": 0.8409,
+   "fvd7": 82.12,
+   "fvdfw": 86.92,
+   "acons": 0.6884,
+   "apres": 0.6793,
+   "match": 382.4,
+   "ade": 13.56
+  },
+  "II \u00b7 Causal student": {
+   "fps": 0.16,
+   "subjq": 0.4522,
+   "vcons": 0.8291,
+   "fvd7": 135.61,
+   "fvdfw": 152.91,
+   "acons": 0.6359,
+   "apres": 0.5992,
+   "match": 310.05,
+   "ade": 18.44
+  },
+  "III \u00b7 Self-Forcing": {
+   "fps": 6.63,
+   "subjq": 0.4724,
+   "vcons": 0.8408,
+   "fvd7": 128.44,
+   "fvdfw": 138.75,
+   "acons": 0.6703,
+   "apres": 0.628,
+   "match": 289.82,
+   "ade": 10.27
+  },
+  "IV \u00b7 + LAK": {
+   "fps": 6.63,
+   "subjq": 0.4941,
+   "vcons": 0.8559,
+   "fvd7": 80.97,
+   "fvdfw": 95.02,
+   "acons": 0.6886,
+   "apres": 0.6511,
+   "match": 318.63,
+   "ade": 5.39
+  },
+  "IV \u00b7 Antiphon Forcing": {
+   "fps": 6.63,
+   "subjq": 0.4892,
+   "vcons": 0.8572,
+   "fvd7": 92.02,
+   "fvdfw": 83.59,
+   "acons": 0.6944,
+   "apres": 0.6635,
+   "match": 326.28,
+   "ade": 5.17
+  }
+ },
+ "config": {
+  "480p \u00b7 1 step": {
+   "fps": 10.85,
+   "subjq": 0.4937,
+   "vcons": 0.8494,
+   "fvd7": 80.19,
+   "fvdfw": 74.93,
+   "acons": 0.682,
+   "apres": 0.6505,
+   "match": 307.78,
+   "ade": 6.1
+  },
+  "480p \u00b7 2 steps": {
+   "fps": 8.62,
+   "subjq": 0.4937,
+   "vcons": 0.8523,
+   "fvd7": 80.93,
+   "fvdfw": 78.12,
+   "acons": 0.6859,
+   "apres": 0.6686,
+   "match": 310.11,
+   "ade": 5.66
+  },
+  "480p \u00b7 4 steps": {
+   "fps": 6.63,
+   "subjq": 0.4892,
+   "vcons": 0.8572,
+   "fvd7": 92.02,
+   "fvdfw": 83.59,
+   "acons": 0.6944,
+   "apres": 0.6635,
+   "match": 326.28,
+   "ade": 5.17
+  },
+  "720p \u00b7 4 steps": {
+   "fps": 2.03,
+   "subjq": 0.5645,
+   "vcons": 0.8894,
+   "fvd7": 84.35,
+   "fvdfw": 83.12,
+   "acons": 0.7359,
+   "apres": 0.6887,
+   "match": 380.5,
+   "ade": 4.9
+  }
+ },
+ "runtime": [
+  {
+   "group": "480p (4-step)",
+   "config": "Eager baseline",
+   "ms": 1577.0,
+   "fps": 5.07
+  },
+  {
+   "group": "480p (4-step)",
+   "config": "FP8 attention",
+   "ms": 1467.0,
+   "fps": 5.45
+  },
+  {
+   "group": "480p (4-step)",
+   "config": "torch.compile",
+   "ms": 1438.0,
+   "fps": 5.56
+  },
+  {
+   "group": "480p (4-step)",
+   "config": "compile + FP8",
+   "ms": 1206.0,
+   "fps": 6.63
+  },
+  {
+   "group": "480p (Step scaling)",
+   "config": "4-step compile + FP8",
+   "ms": 1317.0,
+   "fps": 6.07
+  },
+  {
+   "group": "480p (Step scaling)",
+   "config": "2-step compile + FP8",
+   "ms": 928.0,
+   "fps": 8.62
+  },
+  {
+   "group": "480p (Step scaling)",
+   "config": "1-step compile + FP8",
+   "ms": 737.0,
+   "fps": 10.85
+  },
+  {
+   "group": "720p (4-step)",
+   "config": "Eager baseline",
+   "ms": 4500.0,
+   "fps": 1.78
+  },
+  {
+   "group": "720p (4-step)",
+   "config": "torch.compile",
+   "ms": 4166.0,
+   "fps": 1.92
+  },
+  {
+   "group": "720p (4-step)",
+   "config": "FP8 attention",
+   "ms": 3945.0,
+   "fps": 2.03
+  }
+ ],
+ "views": {
+  "GT reference": {
+   "Front Wide": {
+    "objq": 0.7633,
+    "subjq": 0.5128,
+    "vcons": 0.8874,
+    "fvd": null
+   },
+   "Front Tele": {
+    "objq": 0.7817,
+    "subjq": 0.5361,
+    "vcons": 0.9242,
+    "fvd": null
+   },
+   "Cross Left": {
+    "objq": 0.7567,
+    "subjq": 0.5375,
+    "vcons": 0.8531,
+    "fvd": null
+   },
+   "Cross Right": {
+    "objq": 0.7317,
+    "subjq": 0.5312,
+    "vcons": 0.8899,
+    "fvd": null
+   },
+   "Rear Tele": {
+    "objq": 0.7783,
+    "subjq": 0.5802,
+    "vcons": 0.9081,
+    "fvd": null
+   },
+   "Rear Left": {
+    "objq": 0.7817,
+    "subjq": 0.5463,
+    "vcons": 0.8506,
+    "fvd": null
+   },
+   "Rear Right": {
+    "objq": 0.7433,
+    "subjq": 0.5374,
+    "vcons": 0.8821,
+    "fvd": null
+   }
+  },
+  "480p 1-step": {
+   "Front Wide": {
+    "objq": 0.8567,
+    "subjq": 0.4772,
+    "vcons": 0.8531,
+    "fvd": 74.93
+   },
+   "Front Tele": {
+    "objq": 0.9117,
+    "subjq": 0.5008,
+    "vcons": 0.8946,
+    "fvd": 86.77
+   },
+   "Cross Left": {
+    "objq": 0.82,
+    "subjq": 0.4799,
+    "vcons": 0.8248,
+    "fvd": 78.04
+   },
+   "Cross Right": {
+    "objq": 0.7683,
+    "subjq": 0.4797,
+    "vcons": 0.8644,
+    "fvd": 71.91
+   },
+   "Rear Tele": {
+    "objq": 0.9183,
+    "subjq": 0.5286,
+    "vcons": 0.8602,
+    "fvd": 94.9
+   },
+   "Rear Left": {
+    "objq": 0.84,
+    "subjq": 0.4993,
+    "vcons": 0.8057,
+    "fvd": 76.89
+   },
+   "Rear Right": {
+    "objq": 0.8417,
+    "subjq": 0.4903,
+    "vcons": 0.8427,
+    "fvd": 77.9
+   }
+  },
+  "720p 4-step": {
+   "Front Wide": {
+    "objq": 0.8834,
+    "subjq": 0.5656,
+    "vcons": 0.8962,
+    "fvd": 83.12
+   },
+   "Front Tele": {
+    "objq": 0.9103,
+    "subjq": 0.5706,
+    "vcons": 0.9163,
+    "fvd": 86.0
+   },
+   "Cross Left": {
+    "objq": 0.8902,
+    "subjq": 0.5516,
+    "vcons": 0.871,
+    "fvd": 87.2
+   },
+   "Cross Right": {
+    "objq": 0.8913,
+    "subjq": 0.5463,
+    "vcons": 0.8912,
+    "fvd": 73.8
+   },
+   "Rear Tele": {
+    "objq": 0.929,
+    "subjq": 0.5942,
+    "vcons": 0.9073,
+    "fvd": 97.99
+   },
+   "Rear Left": {
+    "objq": 0.901,
+    "subjq": 0.5639,
+    "vcons": 0.8534,
+    "fvd": 81.81
+   },
+   "Rear Right": {
+    "objq": 0.8952,
+    "subjq": 0.5594,
+    "vcons": 0.8907,
+    "fvd": 80.49
+   }
+  },
+  "480p 2-step": {
+   "Front Wide": {
+    "objq": 0.8733,
+    "subjq": 0.477,
+    "vcons": 0.8571,
+    "fvd": 78.12
+   },
+   "Front Tele": {
+    "objq": 0.9267,
+    "subjq": 0.5017,
+    "vcons": 0.8965,
+    "fvd": 87.51
+   },
+   "Cross Left": {
+    "objq": 0.7967,
+    "subjq": 0.4809,
+    "vcons": 0.828,
+    "fvd": 82.55
+   },
+   "Cross Right": {
+    "objq": 0.8067,
+    "subjq": 0.4788,
+    "vcons": 0.8654,
+    "fvd": 74.77
+   },
+   "Rear Tele": {
+    "objq": 0.9417,
+    "subjq": 0.5274,
+    "vcons": 0.8642,
+    "fvd": 90.5
+   },
+   "Rear Left": {
+    "objq": 0.8533,
+    "subjq": 0.4994,
+    "vcons": 0.8053,
+    "fvd": 76.02
+   },
+   "Rear Right": {
+    "objq": 0.8633,
+    "subjq": 0.4909,
+    "vcons": 0.8498,
+    "fvd": 77.03
+   }
+  },
+  "480p 4-step": {
+   "Front Wide": {
+    "objq": 0.84,
+    "subjq": 0.4714,
+    "vcons": 0.8622,
+    "fvd": 83.59
+   },
+   "Front Tele": {
+    "objq": 0.925,
+    "subjq": 0.5002,
+    "vcons": 0.9029,
+    "fvd": 101.12
+   },
+   "Cross Left": {
+    "objq": 0.8583,
+    "subjq": 0.4727,
+    "vcons": 0.8277,
+    "fvd": 91.68
+   },
+   "Cross Right": {
+    "objq": 0.845,
+    "subjq": 0.4751,
+    "vcons": 0.8688,
+    "fvd": 87.23
+   },
+   "Rear Tele": {
+    "objq": 0.855,
+    "subjq": 0.5235,
+    "vcons": 0.8741,
+    "fvd": 95.44
+   },
+   "Rear Left": {
+    "objq": 0.8617,
+    "subjq": 0.4947,
+    "vcons": 0.811,
+    "fvd": 95.23
+   },
+   "Rear Right": {
+    "objq": 0.8883,
+    "subjq": 0.4868,
+    "vcons": 0.8539,
+    "fvd": 89.86
+   }
+  },
+  "Stage IV LAK": {
+   "Front Wide": {
+    "objq": 0.9217,
+    "subjq": 0.4773,
+    "vcons": 0.8552,
+    "fvd": 95.02
+   },
+   "Front Tele": {
+    "objq": 0.9667,
+    "subjq": 0.4984,
+    "vcons": 0.895,
+    "fvd": 113.01
+   },
+   "Cross Left": {
+    "objq": 0.8783,
+    "subjq": 0.4816,
+    "vcons": 0.8297,
+    "fvd": 77.69
+   },
+   "Cross Right": {
+    "objq": 0.9,
+    "subjq": 0.4818,
+    "vcons": 0.8671,
+    "fvd": 69.95
+   },
+   "Rear Tele": {
+    "objq": 0.9367,
+    "subjq": 0.5214,
+    "vcons": 0.8689,
+    "fvd": 75.35
+   },
+   "Rear Left": {
+    "objq": 0.9067,
+    "subjq": 0.5028,
+    "vcons": 0.82,
+    "fvd": 66.68
+   },
+   "Rear Right": {
+    "objq": 0.9117,
+    "subjq": 0.4951,
+    "vcons": 0.8552,
+    "fvd": 69.07
+   }
+  },
+  "Stage III": {
+   "Front Wide": {
+    "objq": 0.8917,
+    "subjq": 0.4452,
+    "vcons": 0.8285,
+    "fvd": 138.75
+   },
+   "Front Tele": {
+    "objq": 0.9483,
+    "subjq": 0.4694,
+    "vcons": 0.88,
+    "fvd": 143.79
+   },
+   "Cross Left": {
+    "objq": 0.8383,
+    "subjq": 0.4568,
+    "vcons": 0.8292,
+    "fvd": 115.31
+   },
+   "Cross Right": {
+    "objq": 0.89,
+    "subjq": 0.4627,
+    "vcons": 0.8561,
+    "fvd": 102.97
+   },
+   "Rear Tele": {
+    "objq": 0.9217,
+    "subjq": 0.5094,
+    "vcons": 0.8399,
+    "fvd": 154.62
+   },
+   "Rear Left": {
+    "objq": 0.8683,
+    "subjq": 0.4837,
+    "vcons": 0.815,
+    "fvd": 119.44
+   },
+   "Rear Right": {
+    "objq": 0.8983,
+    "subjq": 0.4795,
+    "vcons": 0.8367,
+    "fvd": 124.23
+   }
+  }
+ },
+ "fixer": {
+  "Chunk seams": {
+   "psnr": [
+    21.97,
+    24.09
+   ],
+   "ssim": [
+    0.7501,
+    0.7759
+   ],
+   "lpips": [
+    0.4201,
+    0.2961
+   ],
+   "fid": [
+    5.1,
+    3.2
+   ],
+   "fvd": [
+    280.3,
+    152.1
+   ],
+   "fbd": [
+    340.6,
+    261.5
+   ]
+  },
+  "Under-fitting": {
+   "psnr": [
+    21.95,
+    23.76
+   ],
+   "ssim": [
+    0.7934,
+    0.7742
+   ],
+   "lpips": [
+    0.426,
+    0.2957
+   ],
+   "fid": [
+    4.8,
+    3.0
+   ],
+   "fvd": [
+    261.4,
+    169.2
+   ],
+   "fbd": [
+    339.1,
+    252.3
+   ]
+  },
+  "Missing background": {
+   "psnr": [
+    23.28,
+    24.35
+   ],
+   "ssim": [
+    0.7903,
+    0.7834
+   ],
+   "lpips": [
+    0.3093,
+    0.2781
+   ],
+   "fid": [
+    3.6,
+    2.9
+   ],
+   "fvd": [
+    230.5,
+    167.9
+   ],
+   "fbd": [
+    292.2,
+    251.7
+   ]
+  },
+  "Foreground noise": {
+   "psnr": [
+    24.78,
+    25.46
+   ],
+   "ssim": [
+    0.8043,
+    0.7965
+   ],
+   "lpips": [
+    0.2848,
+    0.2534
+   ],
+   "fid": [
+    4.1,
+    3.1
+   ],
+   "fvd": [
+    250.8,
+    172.8
+   ],
+   "fbd": [
+    310.5,
+    265.4
+   ]
+  },
+  "Road noise": {
+   "psnr": [
+    24.94,
+    25.56
+   ],
+   "ssim": [
+    0.8038,
+    0.7961
+   ],
+   "lpips": [
+    0.2928,
+    0.2507
+   ],
+   "fid": [
+    4.3,
+    3.1
+   ],
+   "fvd": [
+    262.7,
+    177.3
+   ],
+   "fbd": [
+    305.1,
+    278.9
+   ]
+  }
+ }
+}

@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BoschDreams 7V — Seven cameras. One dreamed world.</title>
+  <meta name="description" content="BoschDreams-7V: a real-time world model that generates all seven cameras of a car from a vector layout, and an AI agent that turns failure tickets into worlds to train and test in.">
+  <!-- The technical report on arXiv: put the abs URL here and every arXiv link on the page goes live. -->
+  <meta name="arxiv" content="">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="src/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/media/manifest.json" as="fetch" crossorigin>
+  <meta property="og:title" content="BoschDreams 7V">
+  <meta property="og:description" content="Seven cameras. One dreamed world.">
+  <meta property="og:image" content="assets/media/hero.webp">
+  <link rel="stylesheet" href="src/site.css">
+  <script type="importmap">{ "imports": { "three": "./assets/vendor/three/three.module.js", "three/addons/": "./assets/vendor/three/addons/" } }</script>
+</head>
+<body>
+  <a class="skip" href="#film">Skip to content</a>
+  <svg class="defs" aria-hidden="true">
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5Z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+    <symbol id="i-full" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+    <symbol id="i-out" viewBox="0 0 24 24"><path d="M14 5h5v5m0-5-8 8M10 6H5v13h13v-5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-vol" viewBox="0 0 24 24"><path d="M4 9.5h4l5-4v13l-5-4H4Z"/><path class="wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></symbol>
+    <symbol id="i-prev" viewBox="0 0 24 24"><path d="M7 6v12M18 6l-8 6 8 6Z"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24"><path d="M17 6v12M6 6l8 6-8 6Z"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+  </svg>
+
+  <header class="bar">
+    <a class="brand" href="#top"><span class="b">Bosch</span><span class="d">Dreams</span><sup>7V</sup></a>
+    <nav class="nav" aria-label="Sections"><a href="#film">Film</a><a href="#data">Data</a><a href="#agent">Agent</a><a href="#futures">Futures</a><a href="#drive">Drive</a><a href="#static">Static</a><a href="#repair">Repair</a><a href="#inside">Inside</a><a href="#experiments">Experiments</a></nav>
+    <div class="bar-act">
+      <a class="pill" href="assets/BoschDreams-technical-report.pdf" target="_blank" rel="noopener">Paper<svg class="icon"><use href="#i-out"/></svg></a>
+      <a class="pill arxiv" href="#" target="_blank" rel="noopener">arXiv<svg class="icon"><use href="#i-out"/></svg></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="top" aria-labelledby="title">
+      <canvas class="hero-bg" width="384" height="216" aria-hidden="true"></canvas>
+      <div class="lens-stage">
+        <div class="lens" data-mode="world" role="img" aria-label="A lens onto one street: its 3D vector world, the layout a camera sees, and the seven camera views BoschDreams generates from it">
+          <div class="lens-world"></div>
+          <canvas class="lens-video"></canvas>
+        </div>
+        <canvas class="sat" data-cam="FT" aria-hidden="true"></canvas>
+        <canvas class="sat" data-cam="CL" aria-hidden="true"></canvas>
+        <canvas class="sat" data-cam="CR" aria-hidden="true"></canvas>
+        <canvas class="sat" data-cam="RL" aria-hidden="true"></canvas>
+        <canvas class="sat" data-cam="RR" aria-hidden="true"></canvas>
+        <canvas class="sat" data-cam="RT" aria-hidden="true"></canvas>
+      </div>
+      <h1 class="hero-title" id="title"><span class="b">Bosch</span><span class="d">Dreams</span><sup>7V</sup></h1>
+      <div class="hero-copy">
+        <p class="hero-sub">Seven cameras. One dreamed world.</p>
+        <p class="hero-line">A world model that films all seven cameras of a car from a vector map, and an agent that turns every road failure into a world to train and test in.</p>
+      </div>
+      <div class="hero-foot">
+        <p class="modes-cap" aria-live="polite"></p>
+        <nav class="modes" aria-label="What the lens shows">
+          <button type="button" data-mode="world" aria-pressed="true">World<i></i></button>
+          <button type="button" data-mode="layout" aria-pressed="false">Layout<i></i></button>
+          <button type="button" data-mode="dream" aria-pressed="false">Dream<i></i></button>
+          <button type="button" data-mode="seven" aria-pressed="false">Seven<i></i></button>
+        </nav>
+      </div>
+      <span class="cue" aria-hidden="true">Scroll</span>
+    </section>
+
+    <section class="sec wide" id="film" aria-labelledby="film-title">
+      <header class="sec-head" data-k="The film"><h2 id="film-title">The film.</h2><p>Everything on this page in seven minutes and seven chapters. Pick a chapter, or watch it end to end.</p></header>
+      <div class="player">
+        <div class="screen">
+          <video playsinline preload="metadata" poster="assets/media/film/0.webp" aria-label="BoschDreams film"></video>
+          <button class="big-play" type="button" aria-label="Play"><svg class="icon"><use href="#i-play"/></svg></button>
+          <div class="ctrl">
+            <div class="p-track"><div class="segs" aria-hidden="true"></div><input class="p-seek" type="range" min="0" max="1" step="0.1" value="0" aria-label="Position in the film"><output class="p-tip"></output></div>
+            <div class="p-row">
+              <button class="p-prev icon-btn" type="button" aria-label="Previous chapter"><svg class="icon"><use href="#i-prev"/></svg></button>
+              <button class="p-play icon-btn" type="button" aria-label="Play"><svg class="icon"><use href="#i-play"/></svg></button>
+              <button class="p-next icon-btn" type="button" aria-label="Next chapter"><svg class="icon"><use href="#i-next"/></svg></button>
+              <span class="p-time">0:00 / 0:00</span>
+              <span class="now" aria-live="polite"></span>
+              <span class="p-gap"></span>
+              <div class="p-vol"><button class="p-mute icon-btn" type="button" aria-label="Mute"><svg class="icon"><use href="#i-vol"/></svg></button><input class="p-level" type="range" min="0" max="1" step="0.05" value="0.8" aria-label="Volume"></div>
+              <select class="p-rate" aria-label="Playback speed"><option value="0.5">0.5×</option><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option></select>
+              <button class="p-full icon-btn" type="button" aria-label="Full screen"><svg class="icon"><use href="#i-full"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <ol class="chapters" aria-label="Chapters"></ol>
+      </div>
+      <p class="hint">Space plays and pauses, ← → skip 5 s, ↑ ↓ set the volume, M mutes, F fills the screen.</p>
+    </section>
+
+    <section class="sec" id="data" aria-labelledby="data-title">
+      <header class="sec-head" data-k="Data"><h2 id="data-title">Trained on recorded drives. Judged against them.</h2>
+        <p>BoschDreams-7V learns from drives filmed by seven synchronized cameras. Watch the recordings, then what the model generates from a single first frame and the layout, and judge how close the two look.</p></header>
+      <div class="part">
+        <h3 class="part-head"><b>Recorded</b><span>The training data: 19,900 captioned drives, seven cameras each. A bar's fill is how many drives a caption places in that condition.</span></h3>
+        <figure class="reel" aria-label="Recorded training drives, seven cameras each, at 3× speed">
+          <video muted playsinline preload="auto" aria-hidden="true"></video>
+          <div class="reel-chips" role="group" aria-label="Condition"></div>
+        </figure>
+      </div>
+      <div class="part">
+        <h3 class="part-head"><b>Generated</b><span>Conditioned on the first recorded frame and the layout of every frame after it: map, traffic and camera geometry.</span></h3>
+        <div class="range-bar">
+          <div class="scene-pick" role="radiogroup" aria-label="Scene">
+            <button type="button" role="radio" aria-checked="true" data-clip="riders" data-note="Riders weave through a busy junction.">Riders</button>
+            <button type="button" role="radio" aria-checked="false" data-clip="crosswalk" data-note="Pedestrians fill a crosswalk ahead.">Crosswalk</button>
+            <button type="button" role="radio" aria-checked="false" data-clip="scooters" data-note="Scooters cross ahead on a route the car drove itself; no layout was rendered for it.">Scooters</button>
+            <button type="button" role="radio" aria-checked="false" data-clip="night" data-note="A night road under street lights.">Night</button>
+            <button type="button" role="radio" aria-checked="false" data-clip="highway" data-note="Highway traffic in full sun.">Highway</button>
+            <button type="button" role="radio" aria-checked="false" data-clip="truck" data-note="A truck fills the front cameras.">Truck</button>
+          </div>
+          <button type="button" class="pill layout-toggle" aria-pressed="true">Compare layout</button>
+        </div>
+        <div class="rig" id="scene-rig" data-clip="riders" data-view="split" data-l="Layout" data-r="Generated">
+          <div class="core bev-box"><canvas class="bev" role="img" aria-label="Top-down view of the scene: the car, the traffic around it and the field of view of each camera. Scroll or pinch to zoom, drag to pan."></canvas>
+            <div class="zoom"><button type="button" data-z="0.7" aria-label="Zoom in">+</button><button type="button" data-z="1.4" aria-label="Zoom out">−</button></div></div>
+        </div>
+        <div class="scene-foot">
+          <p class="note"></p>
+          <ul class="legend" aria-label="Top-down legend"><li><i class="k-ego"></i>This car</li><li><i class="k-car"></i>Vehicle</li><li><i class="k-vru"></i>Pedestrian, rider</li><li><i class="k-fan"></i>Camera view</li></ul>
+          <p class="hint">Sweep or drag across the views to compare layout vs. generated. Click any view or cone to enlarge it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec wide" id="agent" aria-labelledby="agent-title">
+      <header class="sec-head" data-k="Agent · ticket to world"><h2 id="agent-title">Each ticket becomes a world.</h2>
+        <p>The fleet reports a failure. An AI agent reads it, searches the recorded drives for a road that fits, edits it in the vector world, checks the physics, and has BoschDreams-7V film it with all seven cameras. Every world ships with a ground-truth trajectory, so it can train and test the planner with no person in the loop.</p></header>
+      <div class="tickets" role="tablist" aria-label="Fleet tickets"></div>
+      <div class="ag">
+        <ol class="steps" aria-label="The agent's steps"></ol>
+        <div class="ag-stage" aria-live="polite">
+          <div class="st st-read">
+            <div class="st-text"><p class="fn-tag"></p><h3 class="t-text"></h3><p class="t-want"></p><ol class="timeline"></ol></div>
+            <div class="st-vis read-vis">
+              <div class="bev-pane"><canvas class="read-map" role="img" aria-label="Top-down replay of the failure: the planner as deployed, driving into the situation"></canvas><span class="ovl">Vector replay · planner as deployed</span></div>
+              <div class="pip"><canvas class="read-pip" aria-hidden="true"></canvas><span class="ovl">Front camera</span></div>
+              <div class="bev-pane"><canvas class="read-speed" aria-hidden="true"></canvas><span class="ovl">Speed · as deployed</span></div>
+            </div>
+          </div>
+          <div class="st st-search">
+            <div class="st-text"><h3>Find a road that fits.</h3><p>The ticket becomes a scene specification. The agent chains its own tools over the whole recorded fleet and keeps only drives that match every line.</p><ul class="spec"></ul><ol class="log"></ol></div>
+            <div class="st-vis search-vis"><canvas class="field" role="img" aria-label="Every recorded drive as a point; each tool narrows them to the few that fit"></canvas><span class="ovl">The recorded fleet</span>
+              <div><p class="pool-cap"><span>Candidate pool</span><span class="pool-n"></span></p><div class="pool"></div></div></div>
+          </div>
+          <div class="st st-design">
+            <div class="st-text"><h3>Edit it in vector space.</h3><p>Step by step: the agent inspects the recorded drive, injects the new road user, synthesizes its conflict path, re-plans this car and surrounding traffic by rule, and replays the full edit.</p><ol class="log"></ol></div>
+            <div class="st-vis design-vis"><div class="design-head"><div class="design-phases" role="group" aria-label="Design sequence"></div></div><canvas class="design-map" role="img" aria-label="The edit built step by step: recorded path dashed white, edited road user and path in red, re-planned ego in cyan"></canvas><canvas class="design-speed" aria-hidden="true"></canvas></div>
+          </div>
+          <div class="st st-verify">
+            <div class="st-text"><h3>Prove it is physical.</h3><p>The simulator replays the edit and rejects overlaps, impossible speeds and braking. It also renders the layout each camera will see.</p><ul class="checks"></ul></div>
+            <div class="st-vis verify-vis"><div class="bev-pane"><canvas class="verify-map" role="img" aria-label="Top-down replay with the closest call highlighted"></canvas><span class="ovl">Top-down · closest call</span></div>
+              <div class="sim"><video muted playsinline preload="none" aria-label="The simulator's front-camera layout of the edit"></video><span class="ovl">Layout · front camera</span></div></div>
+          </div>
+          <div class="st st-gen">
+            <div class="st-text"><h3>Film it with seven cameras.</h3><p>BoschDreams-7V turns the layout into all seven camera videos from one recorded first frame. Switch between the drive as recorded and the agent's edit; both run on one clock.</p>
+              <div class="seg gen-pick" role="radiogroup" aria-label="Show"><button type="button" role="radio" aria-checked="false" data-layer="rec">Recorded</button><button type="button" role="radio" aria-checked="true" data-layer="edit">Agent's edit</button></div>
+              <p class="gen-note note"></p></div>
+            <div class="st-vis gen-vis"><div class="rig seven" id="agent-rig"></div><div class="gen-world" role="img" aria-label="The edited vector world in 3D on the same clock; drag to orbit, scroll to zoom"></div></div>
+          </div>
+          <div class="st st-train">
+            <div class="st-text"><h3>Train and test, with ground truth.</h3><p>Every edited world carries the trajectory this car should have driven: it obeys the traffic rules and the physics. That label makes the world usable for training and for closed-loop tests without a person.</p>
+              <dl class="gt"><div class="g-rec"><dt></dt><dd><b>As recorded</b><span class="g-rec-t"></span></dd></div><div class="g-gt"><dt></dt><dd><b>Ground truth</b><span class="g-gt-t"></span></dd></div></dl></div>
+            <div class="st-vis train-vis"><canvas class="train-map" role="img" aria-label="The recorded path and the ground-truth path in the edited world"></canvas><span class="ovl">Edited world · two trajectories</span>
+              <canvas class="train-speed" aria-hidden="true"></canvas><ol class="loop"><li><b>Train</b>7V video + ground truth</li><li><b>Retrain</b>the planner imitates it</li><li><b>Test</b>closed loop in this world</li><li><b>Close</b>the ticket once it passes</li></ol></div>
+          </div>
+        </div>
+        <div class="ag-foot">
+          <span class="label ag-step"></span>
+          <p class="ag-cap"></p>
+          <ul class="legend ag-legend" aria-label="Vector map color key">
+            <li><i class="k-ego"></i>Ego (ground truth)</li>
+            <li><i class="k-rec"></i>Recorded path</li>
+            <li><i class="k-edit"></i>Edited actor &amp; path</li>
+            <li><i class="k-vru"></i>VRU</li>
+            <li><i class="k-ok"></i>Safe gap</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec wide" id="futures" aria-labelledby="futures-title">
+      <header class="sec-head" data-k="Closed loop"><h2 id="futures-title">One decision, many futures.</h2>
+        <p>Closed-loop simulation. Every future starts from the same recorded frame and is one drive until the decision. Then the car commits, the traffic reacts by rule, and BoschDreams-7V renders what the cameras see.</p></header>
+      <div class="cf-bar">
+        <div class="cf-cases" role="radiogroup" aria-label="Scene"></div>
+        <div class="cf-tools"><button class="cf-play icon-btn solid" type="button" aria-label="Play"><svg class="icon"><use href="#i-play"/></svg></button></div>
+      </div>
+      <p class="cf-premise" aria-live="polite"></p>
+      <div class="cf-stage" data-mode="cols">
+        <div class="cf-cols"></div>
+        <div class="cf-seven"><header><button class="pill cf-back" type="button"><svg class="icon"><use href="#i-back"/></svg>All futures</button><b class="cf-seven-name"></b><span class="note">All seven cameras</span></header><div class="rig seven" id="cf-rig"></div></div>
+        <p class="cf-pulse" aria-hidden="true"></p>
+      </div>
+      <div class="cf-low">
+        <div class="frame cf-map-box"><canvas class="cf-map" role="img" aria-label="Top-down view: one path until the decision, then one per future"></canvas><span class="ovl">Top-down · one path per future</span><div class="zoom"><button type="button" data-z="0.7" aria-label="Zoom in">+</button><button type="button" data-z="1.4" aria-label="Zoom out">−</button></div></div>
+        <figure class="frame tree"><canvas role="img" aria-label="Distance driven over time: one trunk until the decision, then one branch per future"></canvas><figcaption>Distance driven over time. Drag to scrub; click a line or a camera column to follow that future, and again for all seven cameras.</figcaption></figure>
+      </div>
+      <div class="cf-bars" aria-label="Consequences, computed from the trajectories"></div>
+      <p class="hint">Reactions follow a simple behaviour model (IDM car following, gap acceptance, yielding at conflicts), not predictions of real drivers. Every number is computed from the simulated trajectories.</p>
+      <p class="cf-close"></p>
+    </section>
+
+    <section class="sec wide" id="drive" aria-labelledby="drive-title">
+      <header class="sec-head" data-k="Single take"><h2 id="drive-title">Drive off the log. The world follows.</h2><p>One continuous take of 39.7 s, all seven cameras generated. The agent edits the traffic and the car's own path: a cyclist cuts across, the car ahead brakes hard, then the car turns through the median and drives where there is no road, through a car and into the trees, and the picture holds.</p></header>
+      <div class="frame drive-stage">
+        <div class="drive-world" role="img" aria-label="3D view of the drive; drag to orbit, scroll or pinch to zoom"></div>
+        <div class="beat-card" aria-live="polite"><small></small><b></b><span></span></div>
+        <div class="dash" aria-hidden="true">
+          <svg class="gauge" viewBox="0 0 120 120"><circle class="speed-track" cx="60" cy="60" r="52" pathLength="100"/><circle class="speed-arc" cx="60" cy="60" r="52" pathLength="100"/>
+            <g class="wheel"><circle cx="60" cy="60" r="32"/><path d="M28 60h64M60 60v32"/><circle cx="60" cy="60" r="7"/></g></svg>
+          <b class="kmh">0</b>
+        </div>
+        <div class="zoom"><button type="button" data-z="0.75" aria-label="Zoom in">+</button><button type="button" data-z="1.33" aria-label="Zoom out">−</button></div>
+      </div>
+      <div class="rig seven" id="drive-rig" data-clip="drive"></div>
+      <div class="drive-bar">
+        <button class="drive-play icon-btn solid" type="button" aria-label="Pause"><svg class="icon"><use href="#i-pause"/></svg></button>
+        <div class="drive-track"><input class="drive-scrub" type="range" min="0" max="396" value="0" aria-label="Drive position"><div class="marks" aria-hidden="true"></div></div>
+        <span class="legend"><i class="driven"></i>Driven<i class="recorded"></i>Recorded<i class="edited"></i>Edited</span>
+      </div>
+      <ol class="beats" aria-label="What happens in the take"></ol>
+    </section>
+
+    <section class="sec wide" id="static" aria-labelledby="static-title">
+      <header class="sec-head" data-k="Static edits · pure noise"><h2 id="static-title">Rewrite the road. Generate it from noise.</h2>
+        <p>Zero first frame. From the same recorded road, BoschDreams-7V generates both the original layout (top row) and our edited corner case (bottom row) from pure noise—re-planning both the ego trajectory and surrounding traffic with strict barrier clearance. Scrub to inspect every frame across all four front cameras.</p></header>
+      <div class="fix-bar">
+        <div class="static-pick" role="radiogroup" aria-label="Static-map corner case"></div>
+        <div class="st-ctrl">
+          <button type="button" class="pill static-toggle" aria-pressed="true">Color static overlay</button>
+        </div>
+      </div>
+
+      <div class="st-stack">
+        <figure class="st-band st-band-orig">
+          <figcaption class="st-head">
+            <span class="st-badge orig">Before · original road</span>
+            <small>Pure-noise generation · unedited static map · 4 front views (CL · FW · FT · CR)</small>
+          </figcaption>
+          <div class="st-row4" data-side="base" role="group" aria-label="Original unedited road across four front cameras"></div>
+        </figure>
+
+        <div class="st-flow" aria-live="polite">
+          <div class="st-flow-steps" role="list" aria-label="Guided comparison phases">
+            <span class="st-step" data-phase="0" role="listitem"><i>01</i>Approach · shared start</span>
+            <span class="st-step" data-phase="1" role="listitem"><i>02</i>Static edit &amp; ego maneuver</span>
+            <span class="st-step" data-phase="2" role="listitem"><i>03</i>Verified barrier clearance</span>
+          </div>
+          <span class="st-flow-cue"><b class="st-cue-dot"></b><span class="st-cue-text">Compare upper (original) vs. lower (edited) column by column</span></span>
+        </div>
+
+        <figure class="st-band st-band-edit">
+          <figcaption class="st-head">
+            <span class="st-badge edit">After · edited corner case</span>
+            <small>Pure-noise generation · rewritten static geometry + re-planned ego &amp; traffic</small>
+          </figcaption>
+          <div class="st-row4" data-side="edit" role="group" aria-label="Edited corner-case road across four front cameras"></div>
+        </figure>
+      </div>
+
+      <div class="st-player" aria-label="Playback controls">
+        <button class="st-play icon-btn solid" type="button" aria-label="Pause"><svg class="icon"><use href="#i-pause"/></svg></button>
+        <button class="st-replay icon-btn" type="button" aria-label="Replay from start"><svg class="icon" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.3-5.6L4 8.7M4 4v4.7h4.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="st-track">
+          <div class="st-zone" aria-hidden="true"></div>
+          <input class="st-scrub" type="range" min="0" max="92" step="1" value="0" aria-label="Playback position">
+        </div>
+        <span class="st-time">0.0 / 9.3 s</span>
+      </div>
+
+      <div class="st-guide">
+        <div class="frame st-bev-box">
+          <canvas class="bev st-bev" role="img" aria-label="Top-down map diff: removed markings in dashed slate, newly engineered static markings in cyan, original vs. edited ego trajectory and traffic"></canvas>
+          <span class="ovl">Top-down diff · original vs. edited geometry</span>
+          <div class="zoom"><button type="button" data-z="0.72" aria-label="Zoom in">+</button><button type="button" data-z="1.38" aria-label="Zoom out">−</button></div>
+        </div>
+        <div class="st-explain">
+          <span class="st-kind label"></span>
+          <h3 class="st-title"></h3>
+          <dl class="st-points">
+            <div><dt>What we edited</dt><dd class="st-change"></dd></div>
+            <div><dt>Why this corner case matters</dt><dd class="st-why"></dd></div>
+          </dl>
+          <ul class="st-key" aria-label="High-contrast translucent static overlay key">
+            <li><i class="k-cyan"></i>Lane lines (solid / dashed)</li>
+            <li><i class="k-amber"></i>Yellow / work-zone lines</li>
+            <li><i class="k-coral"></i>Curbs, barriers &amp; islands</li>
+            <li><i class="k-violet"></i>Crosswalks</li>
+            <li><i class="k-mint"></i>Stop bars &amp; arrows</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec wide" id="repair" aria-labelledby="repair-title">
+      <header class="sec-head" data-k="Repair"><h2 id="repair-title">It repairs what 3D Gaussians break.</h2>
+        <p>Render a reconstructed 3D Gaussian scene along a new path and it tears, smears and leaves holes. A sibling of BoschDreams-7V repairs all seven views together in eight steps. The divider sweeps between the broken render and the repair; drag it yourself.</p></header>
+      <div class="fix-bar">
+        <div class="fix-pick" role="radiogroup" aria-label="Damage">
+          <button type="button" role="radio" aria-checked="true" data-clip="seams" data-fam="Chunk seams">Seams<i></i></button>
+          <button type="button" role="radio" aria-checked="false" data-clip="ghosts" data-fam="Foreground noise">Floaters<i></i></button>
+          <button type="button" role="radio" aria-checked="false" data-clip="road" data-fam="Road noise">Road noise<i></i></button>
+          <button type="button" role="radio" aria-checked="false" data-clip="blur" data-fam="Under-fitting">Under-fit blur<i></i></button>
+          <button type="button" role="radio" aria-checked="false" data-clip="holes" data-fam="Missing background">Missing geometry<i></i></button>
+        </div>
+        <div class="seg fix-mode" role="radiogroup" aria-label="Right of the divider">
+          <button type="button" role="radio" aria-checked="true" data-row="restored">Repaired</button>
+          <button type="button" role="radio" aria-checked="false" data-row="gt">Recording</button>
+        </div>
+      </div>
+      <div class="rig seven" id="fix-rig" data-clip="fix-seams"></div>
+      <p class="fix-labels"><b>← 3DGS render</b><b class="fix-right">Repaired →</b></p>
+      <dl class="fx-stats" aria-live="polite"></dl>
+      <figure class="chart" data-chart="fixer"><h3 class="chart-head"><b>All five failure modes</b><span>Seven cameras, 87 frames each, against the recording. Red: the 3DGS render. Green: repaired.</span></h3><div class="plot"></div></figure>
+    </section>
+
+    <section class="sec wide" id="inside" aria-labelledby="inside-title">
+      <header class="sec-head" data-k="Architecture"><h2 id="inside-title">Inside the model.</h2><p>Memory-decoupled autoregressive diffusion, in six figures from the report. Each one plays.</p></header>
+      <div class="fig-tabs" role="radiogroup" aria-label="Figure">
+        <button type="button" role="radio" aria-checked="true" data-fig="fig1">Network</button>
+        <button type="button" role="radio" aria-checked="false" data-fig="fig2">Training</button>
+        <button type="button" role="radio" aria-checked="false" data-fig="fig3">Antiphon</button>
+        <button type="button" role="radio" aria-checked="false" data-fig="fig4">Streaming</button>
+        <button type="button" role="radio" aria-checked="false" data-fig="fig5">Loop</button>
+        <button type="button" role="radio" aria-checked="false" data-fig="fig6">Runtime</button>
+      </div>
+      <figure class="fig"><noscript><img src="assets/static/fig1-dark.webp" width="1600" height="1067" alt="Figure 1: the BoschDreams network"></noscript></figure>
+    </section>
+
+    <section class="sec wide" id="experiments" aria-labelledby="experiments-title">
+      <header class="sec-head" data-k="Experiments"><h2 id="experiments-title">Experiments.</h2>
+        <p>600 held-out drives, ten-second rollouts, every number from the technical report. Hover any mark for exact values.</p></header>
+      <div class="chart-grid">
+        <figure class="chart" data-chart="models"><h3 class="chart-head"><b>Lowest FVD and ego ADE of 11 models</b><span>Left: video quality vs. ego-motion error. Right: rank across 6 axes (white tick = recorded video). Single-view models scored on front camera.</span></h3><div class="plot"></div>
+          <dl class="take"><div><dt>7-view FVD · 480p 1-step</dt><dd><b>80.19</b>−25% vs. Cosmos 7V</dd></div><div><dt>Ego-motion ADE · 720p</dt><dd><b>4.90 m</b>3.6× lower than Cosmos 7V</dd></div></dl></figure>
+        <figure class="chart" data-chart="runtime"><h3 class="chart-head"><b>10.85 FPS per camera beats the 10 Hz clock</b><span>480p on 8 × H20. Exact kernels speed up 4-step; 1-step distillation achieves 35× fewer passes per chunk.</span></h3><div class="plot"></div>
+          <dl class="take"><div><dt>Real-time throughput</dt><dd><b>10.85 FPS</b>per camera · above the 10 Hz clock</dd></div><div><dt>Denoising passes / chunk</dt><dd><b>35× fewer</b>2 passes vs. a 70-pass baseline</dd></div></dl></figure>
+        <figure class="chart" data-chart="stages"><h3 class="chart-head"><b>Antiphon Forcing closes the causal gap at 41× speed</b><span>Stage III accelerates 41×; LAK and role-decoupled Antiphon Forcing cut FVD 37% and ADE 52% at the same speed.</span></h3><div class="plot"></div></figure>
+        <figure class="chart" data-chart="cameras"><h3 class="chart-head"><b>Uniform gains across all seven cameras</b><span>Left: per-camera FVD on rig headings (inner is better). Right: speed vs. ADE across resolutions and step counts.</span></h3><div class="plot"></div></figure>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot" id="team">
+    <div class="foot-hero">
+      <div class="foot-glow" aria-hidden="true"></div>
+      <div class="foot-title">
+        <span class="brand"><span class="b">Bosch</span><span class="d">Dreams</span><sup>7V</sup></span>
+        <h2>Controllable Surround-View Video World Model for Long-Horizon Autonomous Driving</h2>
+        <p>State-decoupled, memory-aware autoregressive diffusion streaming seven synchronized cameras in closed loop.</p>
+      </div>
+      <nav class="foot-act" aria-label="Report">
+        <a class="pill main" href="assets/BoschDreams-technical-report.pdf" target="_blank" rel="noopener">Technical report (PDF)<svg class="icon"><use href="#i-out"/></svg></a>
+        <a class="pill arxiv" href="#" target="_blank" rel="noopener">arXiv<svg class="icon"><use href="#i-out"/></svg></a>
+        <a class="pill" href="#film">Watch the film<svg class="icon"><use href="#i-play"/></svg></a>
+      </nav>
+    </div>
+    <div class="foot-grid">
+      <section aria-labelledby="team-title">
+        <h3 id="team-title">Team</h3>
+        <dl class="team">
+          <div><dt>Core contributor</dt><dd>Chaokang Jiang<small>Architecture, training, infrastructure, benchmarks</small></dd></div>
+          <div><dt>Supervision</dt><dd>Yucai Bai · Peng Zhou · Frank Zhang</dd></div>
+          <div><dt>Affiliation</dt><dd>Robert Bosch (CN)<small>XC-AS/ENG World Model Team</small></dd></div>
+          <div><dt>Contact</dt><dd><a href="mailto:Chaokang.JIANG@cn.bosch.com">Chaokang.JIANG@cn.bosch.com</a></dd></div>
+        </dl>
+      </section>
+      <section aria-labelledby="cite-title">
+        <h3 id="cite-title">Cite</h3>
+        <pre class="bib" id="bibtex" tabindex="0">@techreport{boschdreams2026,
+  title       = {BoschDreams-7V: Controllable Video World Model
+                 for Long-Horizon Driving},
+  author      = {{Bosch XC World Model Team}},
+  institution = {Robert Bosch GmbH},
+  type        = {Technical Report},
+  year        = {2026}
+}</pre>
+        <button class="pill copy" type="button">Copy BibTeX</button>
+      </section>
+      <section aria-labelledby="limits-title">
+        <h3 id="limits-title">Scope</h3>
+        <ul class="limits">
+          <li><b>Real time at 480p.</b>480p 1-step streams at 10.85 FPS per camera; 720p 4-step is the offline, high-fidelity setting.</li>
+          <li><b>Rare physics.</b>Contact and far out-of-distribution interactions can still show artifacts.</li>
+          <li><b>Rule-based traffic.</b>Reactions come from the vector simulator (IDM, yielding), not learned drivers.</li>
+          <li><b>Complements the road.</b>It widens closed-loop and corner-case coverage; it does not replace road validation.</li>
+        </ul>
+      </section>
+    </div>
+    <p class="foot-end"><span>© 2026 Robert Bosch (CN) · Technical report, November 2026</span><a href="#top">Back to top ↑</a></p>
+  </footer>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/ScrollTrigger.min.js"></script>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 — BoschDreams 7V</title>
+  <meta name="description" content="Page not found — BoschDreams 7V technical report.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="src/favicon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #000000;
+      --text: #f5f5f7;
+      --t2: rgba(245, 245, 247, .72);
+      --t3: rgba(245, 245, 247, .48);
+      --line: rgba(255, 255, 255, .14);
+      --red: #d61318;
+      --supergraphic: linear-gradient(90deg, #922330 0%, #922330 7.5%, #b1253b 7.8%, #b1253b 12.2%, #d61318 12.5%, #d61318 24%, #5b398d 24.4%, #203b84 37%, #203b84 51.8%, #235ba3 52.2%, #2e7eb5 62%, #00a5cb 63%, #00a5cb 77%, #009c5e 77.4%, #009c5e 85.4%, #89bc70 85.8%, #89bc70 91.6%, #2f8a40 92%, #2f8a40 100%);
+      --sans: "Helvetica Neue", Arial, sans-serif;
+      --mono: ui-monospace, Menlo, Consolas, monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 400 16px/1.6 var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0 0 auto;
+      height: 3px;
+      background: var(--supergraphic);
+    }
+    main {
+      min-height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 32px 20px;
+      text-align: center;
+    }
+    .box {
+      max-width: 440px;
+      width: 100%;
+      padding: 40px 32px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .025);
+    }
+    .code {
+      margin: 0 0 12px;
+      color: var(--t3);
+      font: 400 12px/1 var(--mono);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 6vw, 38px);
+      font-weight: 600;
+      letter-spacing: -.03em;
+    }
+    .b { color: var(--red); }
+    .d {
+      background: linear-gradient(100deg, #fff 10%, #d6e0ff 60%, #a9c1ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    sup { font-size: .4em; color: var(--red); margin-left: 2px; }
+    p { margin: 14px 0 26px; color: var(--t2); font-size: 15px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 42px;
+      padding: 0 22px;
+      border: 1px solid #fff;
+      border-radius: 999px;
+      background: #fff;
+      color: #000;
+      font: 500 14px/1 var(--sans);
+      text-decoration: none;
+    }
+    .btn:hover { opacity: .9; }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="box">
+      <p class="code">Error 404 · Page Not Found</p>
+      <h1><span class="b">Bosch</span><span class="d">Dreams</span><sup>7V</sup></h1>
+      <p>The page you requested does not exist on this site.</p>
+      <a class="btn" id="home-link" href="./">Back to Technical Report</a>
+    </section>
+  </main>
+  <script>
+    (function () {
+      var parts = location.pathname.split("/").filter(Boolean);
+      if (parts.length > 1) {
+        document.getElementById("home-link").setAttribute("href", "/" + parts[0] + "/");
+      }
+    })();
+  </script>
+</body>
+</html>

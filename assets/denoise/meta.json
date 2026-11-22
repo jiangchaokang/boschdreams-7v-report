@@ -1,0 +1,668 @@
+{
+ "clip": "1939906736238546949",
+ "weights": "/workspace/rbwm/bosch_dreams/omni-dreams/assets/checkpoints/elastic_forcing/7v_sgf_ef183_32gpu/export/step_000220/model.pt",
+ "resolution": [
+  480,
+  832
+ ],
+ "steps": [
+  1000,
+  937,
+  833,
+  625
+ ],
+ "context_noise": 128.0,
+ "sigma": {
+  "1000": 1.0,
+  "937": 0.936873733997345,
+  "833": 0.8327770829200745,
+  "625": 0.625,
+  "128": 0.129928320646286
+ },
+ "chunks": 3,
+ "velocity_pca": {
+  "lo": [
+   -4.1515913009643555,
+   -3.171048879623413,
+   -2.6519384384155273
+  ],
+  "hi": [
+   4.496143341064453,
+   2.951601505279541,
+   2.7257394790649414
+  ],
+  "note": "3 principal components of the 16-ch velocity over all recorded denoising calls; each component linearly mapped from its [1%, 99%] range to [0, 1]"
+ },
+ "files": [
+  {
+   "chunk": 0,
+   "view": 0,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 0,
+   "view": 0,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 0,
+   "view": 0,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 0,
+   "view": 0,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 0,
+   "view": 0,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 0,
+   "view": 1,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 0,
+   "view": 1,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 0,
+   "view": 1,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 0,
+   "view": 1,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 0,
+   "view": 1,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 0,
+   "view": 2,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 0,
+   "view": 2,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 0,
+   "view": 2,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 0,
+   "view": 2,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 0,
+   "view": 2,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 0,
+   "view": 3,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 0,
+   "view": 3,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 0,
+   "view": 3,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 0,
+   "view": 3,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 0,
+   "view": 3,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 0,
+   "view": 4,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 0,
+   "view": 4,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 0,
+   "view": 4,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 0,
+   "view": 4,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 0,
+   "view": 4,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 0,
+   "view": 5,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 0,
+   "view": 5,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 0,
+   "view": 5,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 0,
+   "view": 5,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 0,
+   "view": 5,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 0,
+   "view": 6,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 0,
+   "view": 6,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 0,
+   "view": 6,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 0,
+   "view": 6,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 0,
+   "view": 6,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 1,
+   "view": 0,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 1,
+   "view": 0,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 1,
+   "view": 0,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 1,
+   "view": 0,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 1,
+   "view": 0,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 1,
+   "view": 1,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 1,
+   "view": 1,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 1,
+   "view": 1,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 1,
+   "view": 1,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 1,
+   "view": 1,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 1,
+   "view": 2,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 1,
+   "view": 2,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 1,
+   "view": 2,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 1,
+   "view": 2,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 1,
+   "view": 2,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 1,
+   "view": 3,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 1,
+   "view": 3,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 1,
+   "view": 3,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 1,
+   "view": 3,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 1,
+   "view": 3,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 1,
+   "view": 4,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 1,
+   "view": 4,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 1,
+   "view": 4,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 1,
+   "view": 4,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 1,
+   "view": 4,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 1,
+   "view": 5,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 1,
+   "view": 5,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 1,
+   "view": 5,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 1,
+   "view": 5,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 1,
+   "view": 5,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 1,
+   "view": 6,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 1,
+   "view": 6,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 1,
+   "view": 6,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 1,
+   "view": 6,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 1,
+   "view": 6,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 2,
+   "view": 0,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 2,
+   "view": 0,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 2,
+   "view": 0,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 2,
+   "view": 0,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 2,
+   "view": 0,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 2,
+   "view": 1,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 2,
+   "view": 1,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 2,
+   "view": 1,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 2,
+   "view": 1,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 2,
+   "view": 1,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 2,
+   "view": 2,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 2,
+   "view": 2,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 2,
+   "view": 2,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 2,
+   "view": 2,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 2,
+   "view": 2,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 2,
+   "view": 3,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 2,
+   "view": 3,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 2,
+   "view": 3,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 2,
+   "view": 3,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 2,
+   "view": 3,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 2,
+   "view": 4,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 2,
+   "view": 4,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 2,
+   "view": 4,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 2,
+   "view": 4,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 2,
+   "view": 4,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 2,
+   "view": 5,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 2,
+   "view": 5,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 2,
+   "view": 5,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 2,
+   "view": 5,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 2,
+   "view": 5,
+   "call": "write",
+   "t": 128
+  },
+  {
+   "chunk": 2,
+   "view": 6,
+   "call": "s0",
+   "t": 1000
+  },
+  {
+   "chunk": 2,
+   "view": 6,
+   "call": "s1",
+   "t": 937
+  },
+  {
+   "chunk": 2,
+   "view": 6,
+   "call": "s2",
+   "t": 833
+  },
+  {
+   "chunk": 2,
+   "view": 6,
+   "call": "s3",
+   "t": 625
+  },
+  {
+   "chunk": 2,
+   "view": 6,
+   "call": "write",
+   "t": 128
+  }
+ ]
+}

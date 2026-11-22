@@ -1,0 +1,10 @@
+{
+  "name": "boschdreams-homepage",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "./serve.sh",
+    "build": "../../flashdreams/.venv/bin/python tools/build.py",
+    "check": "for f in src/*.js; do node --check \"$f\" || exit 1; done && python3 tools/check_site.py"
+  }
+}

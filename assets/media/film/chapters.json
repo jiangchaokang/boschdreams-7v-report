@@ -1,0 +1,51 @@
+[
+ {
+  "title": "Opening",
+  "line": "Seven cameras, generated while you steer",
+  "start": 0,
+  "seconds": 25,
+  "src": "assets/media/film/0.mp4"
+ },
+ {
+  "title": "One step",
+  "line": "Layout in, one denoising step, seven cameras out",
+  "start": 25,
+  "seconds": 25,
+  "src": "assets/media/film/1.mp4"
+ },
+ {
+  "title": "Method",
+  "line": "Network, training, streaming and the loop, as six living figures",
+  "start": 50,
+  "seconds": 107.27,
+  "src": "assets/media/film/2.mp4"
+ },
+ {
+  "title": "Controllable",
+  "line": "Ticket agent, counterfactuals, four decisions and rewritten roads",
+  "start": 157.27,
+  "seconds": 128.83,
+  "src": "assets/media/film/3.mp4"
+ },
+ {
+  "title": "Closed loop",
+  "line": "Zero-human evaluation, real-time play, any weather and 3\u00bd minutes in one take",
+  "start": 286.11,
+  "seconds": 77.35,
+  "src": "assets/media/film/4.mp4"
+ },
+ {
+  "title": "Restoration",
+  "line": "Repairing what 3D Gaussian splatting breaks",
+  "start": 363.45,
+  "seconds": 20.33,
+  "src": "assets/media/film/5.mp4"
+ },
+ {
+  "title": "Results",
+  "line": "Benchmarks, 10.85 FPS real-time streaming and ablations from the report",
+  "start": 383.79,
+  "seconds": 42.5,
+  "src": "assets/media/film/6.mp4"
+ }
+]

@@ -1,0 +1,9 @@
+# Plain Git, no LFS: GitHub Pages cannot serve LFS objects and every file here is under 100 MB.
+* text=auto eol=lf
+*.mp4 binary
+*.webp binary
+*.jpg binary
+*.png binary
+*.pdf binary
+*.glb binary
+*.ttf binary

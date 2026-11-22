@@ -1,0 +1,5 @@
+checks/
+__pycache__/
+_site/
+.github/skills/
+.DS_Store

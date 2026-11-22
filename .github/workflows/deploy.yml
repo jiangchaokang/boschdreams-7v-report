@@ -1,0 +1,81 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run static site checks
+        run: |
+          for f in src/*.js; do node --check "$f"; done
+          python3 tools/check_site.py
+
+      - name: Stage static files
+        run: |
+          mkdir -p _site
+          cp -r index.html 404.html src assets .nojekyll _site/
+
+      - name: Encrypt index.html with StatiCrypt (AES-256)
+        env:
+          STATICRYPT_PASSWORD: ${{ secrets.SITE_PASSWORD }}
+        run: |
+          if [ -z "$STATICRYPT_PASSWORD" ]; then
+            echo "Error: SITE_PASSWORD secret is not set." >&2
+            exit 1
+          fi
+          npx --yes staticrypt@3 _site/index.html \
+            -d _site \
+            -c false \
+            --short \
+            --salt "7b9c4e1a2f8d0536e1c4a9b2f7083d5e" \
+            --remember 7 \
+            -t tools/password-template.html \
+            --template-title "BoschDreams 7V — Protected Technical Report" \
+            --template-instructions "Enter the access password to view the BoschDreams-7V technical report." \
+            --template-placeholder "Enter password" \
+            --template-remember "Remember password for 7 days" \
+            --template-button "Unlock Report" \
+            --template-error "Incorrect password. Please try again." \
+            --template-toggle-show "Show password" \
+            --template-toggle-hide "Hide password"
+          grep -q "staticryptConfig" _site/index.html
+          if grep -q "Seven cameras, 87 frames each" _site/index.html; then
+            echo "Error: index.html appears unencrypted!" >&2
+            exit 1
+          fi
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,56 @@
+[
+ {
+  "src": "assets/media/data/d4.mp4",
+  "label": "Highway",
+  "scene": "1942460094683381760",
+  "drives": 11224
+ },
+ {
+  "src": "assets/media/data/d1.mp4",
+  "label": "Pedestrians, riders",
+  "scene": "1942500430700969984",
+  "drives": 5427
+ },
+ {
+  "src": "assets/media/data/d5.mp4",
+  "label": "Night",
+  "scene": "1937765860284469249",
+  "drives": 3973
+ },
+ {
+  "src": "assets/media/data/d8.mp4",
+  "label": "Fog",
+  "scene": "1942439088694591488",
+  "drives": 1965
+ },
+ {
+  "src": "assets/media/data/d7.mp4",
+  "label": "Bridge",
+  "scene": "1940246827326582785",
+  "drives": 1340
+ },
+ {
+  "src": "assets/media/data/d2.mp4",
+  "label": "Rain",
+  "scene": "1941925644676124672",
+  "drives": 1246
+ },
+ {
+  "src": "assets/media/data/d3.mp4",
+  "label": "Rural",
+  "scene": "1942439186069553152",
+  "drives": 559
+ },
+ {
+  "src": "assets/media/data/d0.mp4",
+  "label": "Viaduct",
+  "scene": "1942462031231287296",
+  "drives": 391
+ },
+ {
+  "src": "assets/media/data/d6.mp4",
+  "label": "Tunnel",
+  "scene": "1942441009769709568",
+  "drives": 379
+ }
+]
