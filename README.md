@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌌 BoschDreams 7V
+# BoschDreams 7V
 
 ### *Seven cameras. One dreamed world.*
 
@@ -40,7 +40,7 @@
 > [!IMPORTANT]
 > **View the Interactive Technical Report & Video Demos:**  
 > 👉 **Webpage:** https://jiangchaokang.github.io/boschdreams-7v-report/  
-> 🔐 **Access Password:** `boschdreams` *(AES-256 protected)*
+> 🔐 **Access Password:** `*******` *(AES-256 protected)*
 >
 > **Read the Full Paper:**  
 > 👉 **Technical Report (PDF):** [View on GitHub](https://github.com/jiangchaokang/boschdreams-7v-report/blob/main/assets/BoschDreams-technical-report.pdf) | [Direct Download](https://raw.githubusercontent.com/jiangchaokang/boschdreams-7v-report/main/assets/BoschDreams-technical-report.pdf)  
@@ -48,7 +48,7 @@
 
 <!-- TODO: Replace with a high-resolution teaser GIF or banner image of your 7-camera synchronized rollout -->
 <div align="center">
-  <img src="assets/teaser.png" alt="BoschDreams 7V Multi-View Teaser" width="100%">
+  <img src="assets/static/fig1-dark.webp" alt="BoschDreams 7V Multi-View Teaser" width="100%">
   <br>
   <em>Figure 1: Synchronized 7-camera world generation with BoschDreams 7V. <!-- TODO: Add brief 1-sentence caption --></em>
 </div>
@@ -163,7 +163,6 @@ If you find **BoschDreams 7V** useful in your research or engineering work, plea
 For research discussions, collaborations, or inquiries regarding **BoschDreams 7V**:
 
 - **Maintainer:** Chaokang Jiang ([@jiangchaokang](https://github.com/jiangchaokang/)) · World Models Algorithm Engineer @ Bosch China (XC-CN)
-- **Homepage:** https://jiangchaokang.github.io/
 - **Email:** `jck98@foxmail.com`
 
 ---
