@@ -115,7 +115,9 @@ SCENES = {  # one word each; every scene carries its own layout layer
 }
 KIT = REPO / "datasets/world_agent/work"  # the agent's designs, generations and their scenes
 GENS = KIT / "scenes/replay"
-DRIVE = (REPO / "datasets/requested_scenes", "1942467747572711424", KIT / "design/oneshot.json")  # scene root, scene, edit
+DRIVE = (KIT / "scenes", "1942467747572711424", KIT / "design/oneshot.json")  # scene root, scene, edit
+AERIAL = {"drive-aerial": ("aerial_tilt", "aerial"), "drive-junction": ("junction", "junction"), "drive-orbit": ("orbit", "orbit")}  # page take: (gen label, layout)
+AERIAL_SECONDS = {"drive-aerial": 3.6}  # takes the page cuts short; the rest play 18.9 s
 COSMOS = Path("/workspace/vol-lsl001/data/cosmos_cn")
 TRAIN = COSMOS / "cosmos_cn_train_data/videos"
 BEV = {  # clip: (scene json, driven replay or None); the window follows the clip's start in SCENES
@@ -212,11 +214,17 @@ def fix7(name, fam):
     return f"fix-{name}", {"size": (2400, 2400), **clip}
 
 
-def drive():
-    take = json.loads((KIT / "gen.json").read_text()).get(TAG + "oneshot") or json.loads((KIT / "gen.json").read_text())["oneshot"]
-    tiles = seven(0, 0)
-    encode("drive", [(replay(take, GENS)(c)[0], 0, 39.7) for c in SEVEN], [(i, None, *tiles[c]) for i, c in enumerate(SEVEN)], (2560, 704), crf=21, gop=10, rate="5M")
-    return "drive", {"size": (2560, 704), "tiles": tiles}
+def drive(name="drive", take="oneshot", layout="oneshot", sec=39.7):
+    """A take's seven cameras, and below them the layout each was conditioned on (the page's overlay): 2560 x 1408."""
+    gen = json.loads((KIT / "gen.json").read_text())
+    rgb = replay(gen.get(TAG + take) or gen[take], GENS)
+    tiles, over = seven(0, 0), []
+    for c in SEVEN:
+        x, y, w, h = tiles[c]
+        over.append((len(SEVEN), f"crop={w}:{h}:{x}:{y}", x, y + 704, w, h))
+    inputs = [(rgb(c)[0], 0, sec) for c in SEVEN] + [(KIT / f"layout7v/{layout}.mp4", 0, sec)]
+    encode(name, inputs, [(i, None, *tiles[c]) for i, c in enumerate(SEVEN)] + over, (2560, 1408), crf=21, gop=10, rate="8M")
+    return name, {"size": (2560, 1408), "seconds": sec, "tiles": tiles, "layout": seven(0, 704)}
 MONTAGE = [  # front-wide shots for the opening's acceleration: (source, start s); cuts shorten as the pace rises
     (INFER / "sgf720_v2_step140_ema_test8/1937891814051774466_wide120.mp4", 10),
     (REPLAY / "1942441694649221120_sunny/front_wide.mp4", 9),
@@ -262,6 +270,7 @@ def montage():
 def media(*only):
     MEDIA.mkdir(parents=True, exist_ok=True)
     jobs = {"hero": hero, "montage": montage, "drive": drive}
+    jobs |= {n: (lambda n=n, t=t, l=l: drive(n, t, l, AERIAL_SECONDS.get(n, 18.9))) for n, (t, l) in AERIAL.items()}
     jobs |= {n: (lambda n=n, l=l, a=a, s=s: layered(n, l, a, s, 8)) for n, (l, a, s) in SCENES.items()}
     jobs |= {f"fix-{n}": (lambda n=n, f=f: fix7(n, f)) for n, f in REPAIRS.items()}
     with ThreadPoolExecutor(max_workers=8) as pool:
@@ -299,19 +308,20 @@ def film():
 
 
 # ---- the 3D vector world: map, ego and actors exported from world7v (what the serve cockpit draws) ----
-def world():
+def world(*only):
     sys.path.insert(0, str(TOOLS7V.parents[1]))
     from impl.tools import world7v as W
 
-    def export(name, scene_json, sid, edits=None):
+    def export(name, scene_json, sid, edits=None, seconds=None):
         s = W.WorldScene(str(scene_json), None, sid)
         rec = np.asarray(s.replay_track()["ego"])
         n = s.n_frames
         if edits:
             e = json.loads(Path(edits).read_text())
             s.set_edits(e["tracks"])
-            s.set_ego_edit(e["ego"]["xy"], e["ego"]["yaw"])
+            s.set_ego_edit(e["ego"]["xy"], e["ego"]["yaw"], e["ego"].get("z"), e["ego"].get("pitch"))
             n = len(e["ego"]["xy"])
+        n = min(n, round(seconds * s.fps)) if seconds else n
         T = np.array([s.ego_T(i) for i in range(n)])
         ego = np.c_[T[:, 0, 3], T[:, 1, 3], np.unwrap(np.arctan2(T[:, 1, 0], T[:, 0, 0]))]
         ox, oy = ego[0, :2]
@@ -342,16 +352,28 @@ def world():
         }
         if edits:
             out["recorded"] = [r1(v - o) for q in rec[:n:5] for v, o in zip(q[:2], (ox, oy))]
-            out["events"] = json.loads(Path(edits).with_suffix(".meta.json").read_text())["events"]
+            out["events"] = [[t, k] for t, k in json.loads(Path(edits).with_suffix(".meta.json").read_text())["events"] if not seconds or t < seconds]
+            if "pitch" in e["ego"]:  # aerial: altitude above the recorded pose and look-down, per frame
+                z, p = (np.asarray(e["ego"][k], float)[:n] for k in ("z", "pitch"))
+                out["ego3"] = [round(float(v), 3) for i in range(n) for v in (ego[i, 0] - ox, ego[i, 1] - oy, z[i] - z[0], ego[i, 2], p[i])]
         (A / "world").mkdir(parents=True, exist_ok=True)
         (A / "world" / f"{name}.json").write_text(json.dumps(out, separators=(",", ":")))
         print(f"world/{name}.json {len(out['tracks'])} tracks, {(A / 'world' / f'{name}.json').stat().st_size >> 10} KB")
 
-    export("crosswalk", REQUESTED / f"scene_jsons/{CROSSWALK}.json", CROSSWALK)
+    want = lambda name: not only or name in only
+    if want("crosswalk"):
+        export("crosswalk", REQUESTED / f"scene_jsons/{CROSSWALK}.json", CROSSWALK)
     root, sid, edits = DRIVE
-    export("drive", root / f"scene_jsons/{sid}.json", sid, edits)
+    if want("drive"):
+        export("drive", root / f"scene_jsons/{sid}.json", sid, edits)
+    for name in AERIAL:  # each take's own scene, from its design's meta
+        design = KIT / f"design/{name.removeprefix('drive-')}.json"
+        aid = json.loads(design.with_suffix(".meta.json").read_text())["scene"]
+        if want(name):
+            export(name, KIT / f"scenes/scene_jsons/{aid}.json", aid, design, AERIAL_SECONDS.get(name))
     for label, sid in AGENT.items():
-        export(label, KIT / f"scenes/scene_jsons/{sid}.json", sid, KIT / f"design/{label}.json")
+        if want(label):
+            export(label, KIT / f"scenes/scene_jsons/{sid}.json", sid, KIT / f"design/{label}.json")
 
 
 def bev():

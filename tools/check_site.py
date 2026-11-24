@@ -72,15 +72,19 @@ for f in STATIC:
     assert all(d[k] for k in ("title", "change", "why")), f"static copy {f}"
     assert len(d["edit"]["ego"]) == d["n"] and d["edit"]["map"] and d["edit"]["new"] and d["edit"]["tracks"], f"static bev edit {f}"
     assert len(d["base"]["ego"]) == d["n"] and d["base"]["map"], f"static bev base {f}"
-for f in ["drive", *(f"gen-{c}" for c in AGENT), *(f"cf-{c}" for c in FUTURES), *(f"static-{c}" for c in STATIC)]:
+AERIAL = ["drive-aerial", "drive-junction", "drive-orbit"]
+for f in ["drive", *AERIAL, *(f"gen-{c}" for c in AGENT), *(f"cf-{c}" for c in FUTURES), *(f"static-{c}" for c in STATIC)]:
     mbit = (A / f"media/{f}.mp4").stat().st_size * 8 / 1e6 / manifest[f].get("seconds", 39.7 if f == "drive" else 19.6)
     assert mbit < 12, f"{f} streams at {mbit:.1f} Mbit/s; it would stall on an ordinary link"
-for w in ("crosswalk", "drive", *AGENT):
+for w in ("crosswalk", "drive", *AERIAL, *AGENT):
     d = json.loads((A / f"world/{w}.json").read_text())
     assert len(d["ego"]) == 3 * d["n"] and d["map"] and d["tracks"], f"world {w}"
 drive = json.loads((A / "world/drive.json").read_text())
 assert [e for _, e in drive["events"]] == ["cyclist", "lead_brakes", "u_turn", "wreck", "median", "trees"] and any(t.get("e") for t in drive["tracks"]), "drive beats"
-assert manifest["drive"]["size"] == [2560, 704] and drive["n"] == 397, "drive atlas"
+assert manifest["drive"]["size"] == [2560, 1408] and drive["n"] == 397, "drive atlas"
+for name in AERIAL:
+    t = json.loads((A / f"world/{name}.json").read_text())
+    assert len(t["ego3"]) == 5 * t["n"] == 5 * round(manifest[name].get("seconds", 18.9) * 10) and manifest[name]["size"] == [2560, 1408], name
 chapters = json.loads((A / "media/film/chapters.json").read_text())
 assert len(chapters) == 7 and all((ROOT / c["src"]).is_file() and (ROOT / c["src"]).with_suffix(".webp").is_file() for c in chapters), "film chapters"
 for f in ("vendor/three/three.module.js", "vendor/three/three.core.js", "vendor/three/addons/loaders/GLTFLoader.js", "models/sedanSports.glb",

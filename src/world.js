@@ -237,9 +237,8 @@ export class World {
     }
 
     this.rig = new THREE.Group();
-    this.fans = FANS.map(([, yaw, fov, range, hex]) => {
+    this.fans = FANS.map(([, , fov, range, hex]) => {
       const m = fanMesh(fov, range, hex);
-      m.rotation.y = (yaw * Math.PI) / 180;
       m.position.y = 0.06;
       this.rig.add(m);
       return m;
@@ -301,9 +300,13 @@ export class World {
     this.camera.updateProjectionMatrix();
   }
 
+  // ego3 (optional): per frame x, y, altitude (m above the recorded pose), yaw, look-down (rad). Without it the rig stays on the road.
   pose(f) {
     const e = this.data.ego, i = Math.max(0, Math.min(this.n - 1, Math.floor(f))), j = Math.min(this.n - 1, i + 1), u = Math.max(0, Math.min(1, f - i));
-    return { x: lerp(e[3 * i], e[3 * j], u), y: lerp(e[3 * i + 1], e[3 * j + 1], u), yaw: e[3 * i + 2] + wrapPi(e[3 * j + 2] - e[3 * i + 2]) * u };
+    const p = { x: lerp(e[3 * i], e[3 * j], u), y: lerp(e[3 * i + 1], e[3 * j + 1], u), yaw: e[3 * i + 2] + wrapPi(e[3 * j + 2] - e[3 * i + 2]) * u, z: 0, pitch: 0 };
+    const a = this.data.ego3;
+    if (a) Object.assign(p, { z: lerp(a[5 * i + 2], a[5 * j + 2], u), pitch: lerp(a[5 * i + 4], a[5 * j + 4], u) });
+    return p;
   }
   // Signed speed (m/s) and yaw rate (rad/s) at frame f, for the dashboard.
   motion(f) {
@@ -387,9 +390,9 @@ export class World {
     const fx = ego.x + Math.cos(this.camYaw) * ahead, fy = ego.y + Math.sin(this.camYaw) * ahead;
     const c = this.camera, cy = Math.cos(ego.yaw), sy = Math.sin(ego.yaw);
     // fp blends the orbit camera into the front-wide camera's own pose: mounted on the roof, looking down the road.
-    const px = lerp(fx - Math.cos(yaw) * hz, ego.x + cy * 1.9, v.fp), py = lerp(dist * Math.sin(pitch), 1.55, v.fp), pz = lerp(-(fy - Math.sin(yaw) * hz), -(ego.y + sy * 1.9), v.fp);
+    const px = lerp(fx - Math.cos(yaw) * hz, ego.x + cy * 1.9, v.fp), py = lerp(ego.z + dist * Math.sin(pitch), 1.55, v.fp), pz = lerp(-(fy - Math.sin(yaw) * hz), -(ego.y + sy * 1.9), v.fp);
     c.position.set(px, py, pz);
-    c.lookAt(lerp(fx, ego.x + cy * 40, v.fp), lerp(0, 1.2, v.fp), lerp(-fy, -(ego.y + sy * 40), v.fp));
+    c.lookAt(lerp(fx, ego.x + cy * 40, v.fp), lerp(ego.z, 1.2, v.fp), lerp(-fy, -(ego.y + sy * 40), v.fp));
     if (c.fov !== v.fov) { c.fov = v.fov; c.updateProjectionMatrix(); }
     this.scene.fog.near = dist * 1.5 + 20;
     this.scene.fog.far = dist * 5 + 200;
@@ -417,9 +420,13 @@ export class World {
     this.glow.position.set(ego.x, 0.025, -ego.y);
     this.glow.rotation.y = ego.yaw;
     this.glow.scale.set(EGO_SIZE[0] * 1.9, 1, EGO_SIZE[1] * 2.6);
-    this.rig.position.set(ego.x, 0, -ego.y);
-    this.rig.rotation.y = ego.yaw;
-    this.fans.forEach((m, i) => { const g = Math.max(0.001, this.grow[i]); m.scale.set(g, 1, g); m.visible = this.grow[i] > 0.002; });
+    this.rig.position.set(ego.x, ego.z, -ego.y);
+    this.rig.rotation.set(0, ego.yaw, 0); // body stays level; each camera tilts about its own lateral axis
+    this.fans.forEach((m, i) => {
+      const g = Math.max(0.001, this.grow[i]);
+      m.rotation.set(0, (FANS[i][1] * Math.PI) / 180, -ego.pitch, "YZX");
+      m.scale.set(g, 1, g); m.visible = this.grow[i] > 0.002;
+    });
     this._shadow(ego.x, ego.y, ego.yaw, EGO_SIZE[0] * 1.25, EGO_SIZE[1] * 1.5);
     const i = Math.floor(f);
     this._path(this.trail, i - (this.data.recorded ? this.n : 90), i, 0.35, null);

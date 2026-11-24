@@ -162,7 +162,7 @@ button.tile { padding: 0; border: 0; cursor: pointer; }
 .reel-chips button[aria-pressed="true"] { color: #fff; }
 .reel-chips i { position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: var(--red); transform: scaleX(var(--p, 0)); transform-origin: left; }
 .range-bar, .fix-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
-.scene-pick, .fix-pick, .fx-pick, .static-pick { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.scene-pick, .fix-pick, .fx-pick, .static-pick, .drive-pick { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 #scene-rig, #static-rig { grid-template-columns: 1fr 2fr 1fr; grid-template-areas: "CL FW CR" "RL FW RR" "FT core RT"; }
 #scene-rig .tile[data-slot="FW"], #static-rig .tile[data-slot="FW"] { grid-area: FW; aspect-ratio: auto; }
 :is(#scene-rig, #static-rig) .tile[data-slot="CR"] { grid-area: CR; } :is(#scene-rig, #static-rig) .tile[data-slot="RR"] { grid-area: RR; } :is(#scene-rig, #static-rig) .tile[data-slot="RT"] { grid-area: RT; }

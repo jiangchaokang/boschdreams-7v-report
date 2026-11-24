@@ -211,7 +211,11 @@
     </section>
 
     <section class="sec wide" id="drive" aria-labelledby="drive-title">
-      <header class="sec-head" data-k="Single take"><h2 id="drive-title">Drive off the log. The world follows.</h2><p>One continuous take of 39.7 s, all seven cameras generated. The agent edits the traffic and the car's own path: a cyclist cuts across, the car ahead brakes hard, then the car turns through the median and drives where there is no road, through a car and into the trees, and the picture holds.</p></header>
+      <header class="sec-head" data-k="Single take"><h2 id="drive-title">Drive off the log. The world follows.</h2><p>One continuous take of 39.7 s, all seven cameras generated. The agent edits the traffic and the car's own path: a cyclist cuts across, the car ahead brakes hard, then the car turns through the median and drives where there is no road, through a car and into the trees, and the picture holds. Or switch to an aerial take: the same rig climbs for 3.6 s, flies low over a junction, or pans from a street at 25 m.</p></header>
+      <div class="fix-bar">
+        <div class="drive-pick" role="radiogroup" aria-label="Take"><button type="button" role="radio" aria-checked="true" data-take="drive">Roaming drive</button><button type="button" role="radio" aria-checked="false" data-take="drive-aerial">Aerial ascent</button><button type="button" role="radio" aria-checked="false" data-take="drive-junction">Low junction</button><button type="button" role="radio" aria-checked="false" data-take="drive-orbit">Street pan</button></div>
+        <div class="st-ctrl"><button type="button" class="pill drive-layer" aria-pressed="false">Layout overlay</button></div>
+      </div>
       <div class="frame drive-stage">
         <div class="drive-world" role="img" aria-label="3D view of the drive; drag to orbit, scroll or pinch to zoom"></div>
         <div class="beat-card" aria-live="polite"><small></small><b></b><span></span></div>

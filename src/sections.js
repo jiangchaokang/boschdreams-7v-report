@@ -387,19 +387,25 @@ const BEATS = {
   wreck: ["Through", "Through a broken-down car", "A stopped car waits in the oncoming lane. The route drives straight through it.", { pitch: 0.38, dist: 21, yaw: 1.1 }],
   median: ["Through", "Back across the median", "A diagonal over the fence and its planters into the lanes the car came from.", { pitch: 0.8, dist: 34, yaw: -0.7 }],
   trees: ["Off the road", "Into the trees", "Over the kerb into the roadside trees. The picture still holds.", { pitch: 0.24, dist: 20, yaw: 0.55 }],
+  ground: ["Recorded start", "Street level", "The car starts where the recording does. Everything after is generated from one first frame.", { pitch: 0.55, dist: 30, yaw: 0 }],
+  rise: ["Climb", "The car climbs to 40 m", "Over 3.6 s the rig rises and tilts its cameras down toward the road.", { pitch: 0.9, dist: 90, yaw: 0 }],
+  overhead: ["Overhead", "70 m up, straight down", "All seven cameras look straight down at the lanes.", { pitch: 1.35, dist: 110, yaw: 0 }],
+  roam: ["Roam", "Over the lanes, 45 to 60 m up", "The rig drifts sideways and holds the aerial view as the lanes unroll below.", { pitch: 0.75, dist: 90, yaw: 0.3 }],
+  low: ["Low approach", "Twelve metres up, over the junction", "The rig rises 12 m in 3 s. The front cameras look down the crossing and the road ahead.", { pitch: 0.7, dist: 45, yaw: 0 }],
+  junction: ["Hover", "Above the crossing, 12 to 14 m up", "The rig holds over the junction, and the front cameras keep the crossing in view.", { pitch: 0.95, dist: 55, yaw: 0.2 }],
+  land: ["Land", "Back onto the recorded pose", "The rig descends onto the car's recorded pose, where the take ends.", { pitch: 0.55, dist: 30, yaw: 0 }],
+  climb: ["Climb", "Up to 25 m, cameras tilting down", "Over 3 s the rig climbs and keeps the street in view.", { pitch: 0.9, dist: 70, yaw: 0 }],
+  pan: ["Pan", "45 degrees right, then left, 25 m up", "The seven cameras pan right, then left, over the street while they look down.", { pitch: 0.8, dist: 70, yaw: -0.5 }],
 };
 
+// A take's beats: its own events, with a start beat added when the take does not open with one.
+const beatsOf = (data) => (data.events[0]?.[0] === 0 ? data.events : [[0, "start"], ...data.events]);
+
 export async function setupDrive(manifest) {
-  const root = $("#drive"), rig = new Rig($("#drive-rig"), manifest, { order: SEVEN, watch: root }), data = await loadWorld("drive");
-  const stage = $(".drive-world", root), world = new World(stage, data);
-  world.view = { ...BEATS.start[3], fp: 0, fov: 42 };
-  world.grow = world.grow.map(() => 1);
+  const root = $("#drive"), rig = new Rig($("#drive-rig"), manifest, { order: SEVEN, watch: root });
+  const stage = $(".drive-world", root);
   const wheel = $(".wheel", root), arc = $(".speed-arc", root), kmh = $(".kmh", root), scrub = $(".drive-scrub", root), play = $(".drive-play", root), card = $(".beat-card", root);
-  const beats = [[0, "start"], ...data.events].map(([t, k]) => ({ t, f: Math.round(t * 10), key: k, kick: BEATS[k][0], title: BEATS[k][1], text: BEATS[k][2], shot: BEATS[k][3] }));
-  $(".marks", root).innerHTML = beats.slice(1).map((b) => `<i style="left:${(100 * b.f) / (world.n - 1)}%"></i>`).join("");
-  $(".beats", root).innerHTML = beats.map((b) => `<li><button type="button"><time>${b.t.toFixed(1)} s</time><small>${b.kick}</small><b>${b.title}</b></button></li>`).join("");
-  const items = $$(".beats button", root);
-  let visible = false, last = performance.now(), cur = -1, touched = -1e9, lastKmh = -1, lastScrub = -1;
+  let world, beats, items = [], take = "", visible = false, last = performance.now(), cur = -1, touched = -1e9, lastKmh = -1, lastScrub = -1;
   // The director frames each beat unless the reader has just orbited or zoomed; then it waits, and eases back.
   const direct = (shot, d = 2.4) => { if (!reduced) gsap.to(world.view, { ...shot, duration: d, ease: "power2.inOut", overwrite: "auto" }); else Object.assign(world.view, shot); };
   const release = () => gsap.to([world.drag], { yaw: 0, pitch: 0, duration: 1.6, ease: "power2.inOut" });
@@ -432,19 +438,46 @@ export async function setupDrive(manifest) {
     dash(f);
     requestAnimationFrame(paint);
   };
-  new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) { last = performance.now(); requestAnimationFrame(paint); } }, { threshold: 0.05 }).observe(root);
-  scrub.max = world.n - 1;
   const seek = (t) => { rig.time = t; dash(t * 10); };
+  // Mounts one take: disposes the previous World and rebuilds beats, marks and the camera's first shot.
+  const mount = async (name) => {
+    if (name === take) return;
+    take = name;
+    const data = await loadWorld(name);
+    if (take !== name) return; // a later pick won the race
+    world?.dispose();
+    world = new World(stage, data);
+    world.grow = world.grow.map(() => 1);
+    beats = beatsOf(data).map(([t, k]) => ({ t, f: Math.round(t * 10), key: k, kick: BEATS[k][0], title: BEATS[k][1], text: BEATS[k][2], shot: BEATS[k][3] }));
+    world.view = { ...beats[0].shot, fp: 0, fov: 42 };
+    $(".marks", root).innerHTML = beats.slice(1).map((b) => `<i style="left:${(100 * b.f) / (world.n - 1)}%"></i>`).join("");
+    $(".beats", root).innerHTML = beats.map((b) => `<li><button type="button"><time>${b.t.toFixed(1)} s</time><small>${b.kick}</small><b>${b.title}</b></button></li>`).join("");
+    items = $$(".beats button", root);
+    items.forEach((b, i) => b.addEventListener("click", () => { touched = -1e9; seek(Math.max(0, beats[i].t - 1)); rig.userPaused = false; rig.sync(); }));
+    scrub.max = world.n - 1;
+    cur = -1; touched = -1e9;
+    rig.setClip(name);
+    beat(0);
+  };
+  await mount("drive");
   scrub.addEventListener("input", () => { rig.userPaused = true; rig.sync(); seek(scrub.value / 10); });
-  items.forEach((b, i) => b.addEventListener("click", () => { touched = -1e9; seek(Math.max(0, beats[i].t - 1)); rig.userPaused = false; rig.sync(); }));
   play.addEventListener("click", () => rig.toggle());
   rig.el.addEventListener("playstate", () => {
     play.setAttribute("aria-label", rig.playing ? "Pause" : "Play");
     $("use", play).setAttribute("href", rig.playing ? "#i-pause" : "#i-play");
   });
-  const zoomBy = steer(world, stage, () => { touched = performance.now(); });
+  // One steer binding for the section; it reads whichever World is mounted.
+  const zoomBy = steer({ get zoom() { return world.zoom; }, set zoom(z) { world.zoom = z; }, orbit: (dx, dy) => world.orbit(dx, dy) }, stage, () => { touched = performance.now(); });
   $$(".drive-stage .zoom [data-z]", root).forEach((b) => b.addEventListener("click", () => zoomBy(+b.dataset.z)));
-  beat(0);
+  radios($(".drive-pick", root), (b) => mount(b.dataset.take));
+  const layer = $(".drive-layer", root);
+  layer.addEventListener("click", () => {
+    const on = layer.getAttribute("aria-pressed") !== "true";
+    layer.setAttribute("aria-pressed", String(on));
+    rig.mix = on ? 0.6 : 0;
+    rig.draw();
+  });
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) { last = performance.now(); requestAnimationFrame(paint); } }, { threshold: 0.05 }).observe(root);
   return rig;
 }
 
